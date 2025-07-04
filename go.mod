@@ -1,0 +1,3 @@
+module just_simple_api
+
+go 1.24.4
