@@ -8,7 +8,7 @@ import (
 )
 
 type CategoryRepositories interface {
-	GetAllCategory() ([]models.Category, error)
+	GetAllCategory(offset int, limit int) ([]models.Category, error)
 	GetCategoryByID(id int) (models.Category, error)
 	CreateCategory(data models.Category) error
 	UpdateCategory(data models.Category, id int) error
@@ -23,9 +23,9 @@ func NewCategoryRepositories(db *gorm.DB) CategoryRepositories {
 	return categoryRepositories{db: db}
 }
 
-func (r categoryRepositories) GetAllCategory() ([]models.Category, error) {
+func (r categoryRepositories) GetAllCategory(offset int, limit int) ([]models.Category, error) {
 	var categories []models.Category
-	if err := r.db.Find(&categories).Error; err != nil {
+	if err := r.db.Offset(offset).Limit(limit).Find(&categories).Error; err != nil {
 		log.Println(err)
 		return nil, err
 	}

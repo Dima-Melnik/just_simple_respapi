@@ -6,7 +6,7 @@ import (
 )
 
 type CategoryServices interface {
-	GetAllCategory() ([]models.Category, error)
+	GetAllCategory(offset int, limit int) ([]models.Category, error)
 	GetCategoryByID(id int) (models.Category, error)
 	CreateCategory(data models.Category) error
 	UpdateCatagory(data models.Category, id int) error
@@ -21,8 +21,8 @@ func NewCategoryServices(r repositories.CategoryRepositories) CategoryServices {
 	return &categoryServices{repo: r}
 }
 
-func (s categoryServices) GetAllCategory() ([]models.Category, error) {
-	return s.repo.GetAllCategory()
+func (s categoryServices) GetAllCategory(offset int, limit int) ([]models.Category, error) {
+	return s.repo.GetAllCategory(offset, limit)
 }
 
 func (s categoryServices) GetCategoryByID(id int) (models.Category, error) {
