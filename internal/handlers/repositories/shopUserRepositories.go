@@ -45,4 +45,29 @@ func (r userShopRepositories) GetUserByID(id int) (models.ShopUser, error) {
 	return user, nil
 }
 
-func (r userShopRepositories) AddUser(id int) mode
+func (r userShopRepositories) AddUser(data models.ShopUser) error {
+	if err := r.db.Create(&data).Error; err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
+}
+
+func (r userShopRepositories) UpdateUser(data models.ShopUser, id int) error {
+	if err := r.db.Model(&models.ShopUser{}).Where("id = ?", id).Updates(data).Error; err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
+}
+
+func (r userShopRepositories) DeleteUser(id int) error {
+	if err := r.db.Delete(&models.ShopUser{}, id).Error; err != nil {
+		log.Println(err)
+		return err
+	}
+
+	return nil
+}
