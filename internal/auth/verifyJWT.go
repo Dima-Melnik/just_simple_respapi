@@ -6,7 +6,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func VerifyJWT(tokenStr string) (jwt.MapClaims, error) {
+func VerifyJWT(tokenStr string) (*Claims, error) {
 	token, err := jwt.ParseWithClaims(tokenStr, Claims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(GetSecretKey()), nil
 	})
@@ -15,7 +15,7 @@ func VerifyJWT(tokenStr string) (jwt.MapClaims, error) {
 		return nil, err
 	}
 
-	claims, ok := token.Claims.(jwt.MapClaims)
+	claims, ok := token.Claims.(*Claims)
 	if !ok || !token.Valid {
 		return nil, errors.New("invalid token")
 	}
